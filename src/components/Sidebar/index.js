@@ -1,5 +1,9 @@
 import React, { Component } from 'react';
 
+import {
+  func, shape, arrayOf, string, number,
+} from 'prop-types';
+
 import { Link } from 'react-router-dom';
 
 import { connect } from 'react-redux';
@@ -10,6 +14,18 @@ import { Container, NewPlaylist, Nav } from './styles';
 import AddPlayListIcon from '../../assets/images/add_playlist.svg';
 
 class Sidebar extends Component {
+  static propTypes = {
+    getPlaylistsRequest: func.isRequired,
+    playlists: shape({
+      data: arrayOf(
+        shape({
+          id: number,
+          title: string,
+        }),
+      ),
+    }).isRequired,
+  };
+
   componentDidMount() {
     this.props.getPlaylistsRequest();
   }
