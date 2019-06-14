@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
 import {
-  func, shape, arrayOf, string, number,
+  func, shape, arrayOf, string, number, bool,
 } from 'prop-types';
 
 import { Link } from 'react-router-dom';
@@ -9,6 +9,8 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Creators as PlaylistsActions } from '../../store/ducks/playlists';
+
+import Loading from '../Loading';
 
 import { Container, NewPlaylist, Nav } from './styles';
 import AddPlayListIcon from '../../assets/images/add_playlist.svg';
@@ -23,6 +25,7 @@ class Sidebar extends Component {
           title: string,
         }),
       ),
+      loading: bool,
     }).isRequired,
   };
 
@@ -31,7 +34,7 @@ class Sidebar extends Component {
   }
 
   render() {
-    const { playlists } = this.props;
+    const { data, loading } = this.props.playlists;
     return (
       <Container>
         <div>
@@ -78,8 +81,9 @@ class Sidebar extends Component {
           <Nav>
             <li>
               <span>PLAYLISTS</span>
+              {loading && <Loading />}
             </li>
-            {playlists.data.map(playlist => (
+            {data.map(playlist => (
               <li key={playlist.id}>
                 <Link to={`playlists/${playlist.id}`}>{playlist.title}</Link>
               </li>

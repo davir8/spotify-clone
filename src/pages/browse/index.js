@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {
-  func, shape, arrayOf, string, number,
+  func, shape, arrayOf, string, number, bool,
 } from 'prop-types';
 
 import { connect } from 'react-redux';
@@ -10,6 +10,8 @@ import { Creators as PlaylistsActions } from '../../store/ducks/playlists';
 import {
   Container, Title, List, Playlist,
 } from './styles';
+
+import Loading from '../../components/Loading';
 
 class Browse extends Component {
   static propTypes = {
@@ -23,6 +25,7 @@ class Browse extends Component {
           description: string,
         }),
       ),
+      loading: bool,
     }).isRequired,
   };
 
@@ -31,12 +34,12 @@ class Browse extends Component {
   }
 
   render() {
-    const { playlists } = this.props;
+    const { data, loading } = this.props.playlists;
     return (
       <Container>
-        <Title>Navegar</Title>
+        <Title>Navegar {loading && <Loading />}</Title>
         <List>
-          {playlists.data.map(playlist => (
+          {data.map(playlist => (
             <Playlist key={playlist.id} to={`/playlists/${playlist.id}`}>
               <img src={playlist.thumbnail} alt={playlist.title} />
               <strong>{playlist.title}</strong>
