@@ -78,7 +78,14 @@ class Playlist extends Component {
             <span>PLAYLIST</span>
             <h1>{playlist.title}</h1>
             {!!playlist.songs && <p>{playlist.songs.length} músicas</p>}
-            <button type="button">PLAY</button>
+            {!!playlist.songs && playlist.songs.length > 0 && (
+              <button
+                onClick={() => this.props.loadSong(playlist.songs[0], playlist.songs)}
+                type="button"
+              >
+                PLAY
+              </button>
+            )}
           </div>
         </Header>
 
