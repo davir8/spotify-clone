@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Sound from 'react-sound';
 import {
   shape, number, string, func, arrayOf, bool,
 } from 'prop-types';
@@ -42,9 +43,12 @@ class Playlist extends Component {
       loading: bool,
     }).isRequired,
     loadSong: func.isRequired,
-    currentSong: shape({
-      id: number,
+    player: shape({
+      currentSong: shape({
+        id: number,
+      }).isRequired,
     }).isRequired,
+    pause: func.isRequired,
   };
 
   state = {
@@ -78,14 +82,22 @@ class Playlist extends Component {
             <span>PLAYLIST</span>
             <h1>{playlist.title}</h1>
             {!!playlist.songs && <p>{playlist.songs.length} músicas</p>}
-            {!!playlist.songs && playlist.songs.length > 0 && (
-              <button
-                onClick={() => this.props.loadSong(playlist.songs[0], playlist.songs)}
-                type="button"
-              >
-                PLAY
+            {!!playlist.songs
+            && playlist.songs.length > 0
+            && !!this.props.player.currentSong
+            && this.props.player.list === playlist.songs
+            && this.props.player.status === Sound.status.PLAYING ? (
+              <button onClick={() => this.props.pause()} type="button">
+                PAUSE
               </button>
-            )}
+              ) : (
+                <button
+                  onClick={() => this.props.loadSong(playlist.songs[0], playlist.songs)}
+                  type="button"
+                >
+                PLAY
+                </button>
+              )}
           </div>
         </Header>
 
@@ -112,7 +124,9 @@ class Playlist extends Component {
                   onClick={() => this.setState({ selectedSong: song.id })}
                   onDoubleClick={() => this.props.loadSong(song, playlist.songs)}
                   selected={this.state.selectedSong === song.id}
-                  playing={this.props.currentSong && this.props.currentSong.id === song.id}
+                  playing={
+                    this.props.player.currentSong && this.props.player.currentSong.id === song.id
+                  }
                 >
                   <td>
                     <img src={PlusIcon} alt="Adicionar" />
@@ -145,7 +159,7 @@ class Playlist extends Component {
 
 const mapStateToProps = state => ({
   playlistDetails: state.playlistDetails,
-  currentSong: state.player.currentSong,
+  player: state.player,
 });
 
 const mapDispatchToProps = dispatch => bindActionCreators(
