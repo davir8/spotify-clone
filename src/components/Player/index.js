@@ -21,16 +21,19 @@ import RepeatIcon from '../../assets/images/repeat.svg';
 const Player = ({ player }) => (
   <Container>
     {!!player.currentSong && <Sound url={player.currentSong.file} playStatus={player.status} />}
+
     <Current>
-      <img
-        src="https://99designs-blog.imgix.net/blog/wp-content/uploads/2017/12/Stargroves-album-cover.png?auto=format&q=60&fit=max&w=930"
-        alt="album"
-      />
-      <div>
-        <span>Times like this</span>
-        <small>Foo Figthers</small>
-      </div>
+      {!!player.currentSong && (
+        <>
+          <img src={player.currentSong.thumbnail} alt={player.currentSong.title} />
+          <div>
+            <span>{player.currentSong.title}</span>
+            <small>{player.currentSong.author}</small>
+          </div>
+        </>
+      )}
     </Current>
+
     <Progress>
       <Controls>
         <button type="button">
@@ -79,6 +82,9 @@ Player.propTypes = {
   player: shape({
     currentSong: shape({
       file: string,
+      title: string,
+      thumbnail: string,
+      author: string,
     }),
     status: string,
   }).isRequired,
