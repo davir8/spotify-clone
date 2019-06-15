@@ -14,6 +14,28 @@ export const Container = styled.aside`
 
   > div {
     padding: 25px;
+    overflow: auto;
+
+    /* width */
+    &::-webkit-scrollbar {
+      width: 4px;
+    }
+
+    /* Track */
+    &::-webkit-scrollbar-track {
+      background: #121212;
+    }
+
+    /* Handle */
+    &::-webkit-scrollbar-thumb {
+      background: #444;
+      border-radius: 10px;
+    }
+
+    /* Handle on hover */
+    &::-webkit-scrollbar-thumb:hover {
+      background: #333;
+    }
   }
 `;
 
