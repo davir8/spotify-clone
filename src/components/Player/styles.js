@@ -7,6 +7,9 @@ export const Container = styled.div`
   align-items: center;
   background: #282828;
   padding: 12px;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
 `;
 
 export const Current = styled.div`
