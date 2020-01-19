@@ -2,7 +2,7 @@
 
 This project was developed using reactjs, redux/saga and styled components. Is the spotify clone for listing playlists and your songs.
 
-![](src/assets/presentation.gif)
+![](src/assets/images/presentation.gif)
 
 ## Prerequisites
 
